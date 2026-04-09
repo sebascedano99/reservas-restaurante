@@ -1,11 +1,15 @@
 package com.dscb.reservas_restaurante.service;
 
 
+import java.util.List;
+
+
 import org.springframework.stereotype.Service;
 
 import com.dscb.reservas_restaurante.model.Cliente;
 import com.dscb.reservas_restaurante.model.Mesa;
 import com.dscb.reservas_restaurante.model.Reserva;
+import com.dscb.reservas_restaurante.model.EstadoReserva;
 import com.dscb.reservas_restaurante.repository.ClienteRepository;
 import com.dscb.reservas_restaurante.repository.MesaRepository;
 import com.dscb.reservas_restaurante.repository.ReservaRepository;
@@ -27,5 +31,19 @@ public class ReservaService {
             .orElseThrow(() -> new RuntimeException ("Cliente no encontrado"));
         Mesa mesa = mesaRepository.findById(reserva.getMesa().getId())
             .orElseThrow(() -> new RuntimeException ("Mesa no encontrada"));
+
+        List <Reserva> reservasExistentes = reservaRepository.findByMesaAndFechaHora(mesa, reserva.getFechaHora());
+        if (!reservasExistentes.isEmpty()) {
+            throw new RuntimeException("Mesa no disponible");
+        }
+
+        int capacidad = mesa.getCapacidad();
+        if (reserva.getNumeroPersonas()>capacidad) {
+            throw new RuntimeException("El número de personas no puede exceder la capacidad de la mesa");
+        }
+
+        reserva.setEstado(EstadoReserva.PENDIENTE);
+        
+        return reservaRepository.save(reserva);
     }
 }
