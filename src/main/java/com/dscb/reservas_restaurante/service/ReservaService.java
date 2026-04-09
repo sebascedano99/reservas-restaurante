@@ -3,13 +3,12 @@ package com.dscb.reservas_restaurante.service;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 
 import com.dscb.reservas_restaurante.model.Cliente;
+import com.dscb.reservas_restaurante.model.EstadoReserva;
 import com.dscb.reservas_restaurante.model.Mesa;
 import com.dscb.reservas_restaurante.model.Reserva;
-import com.dscb.reservas_restaurante.model.EstadoReserva;
 import com.dscb.reservas_restaurante.repository.ClienteRepository;
 import com.dscb.reservas_restaurante.repository.MesaRepository;
 import com.dscb.reservas_restaurante.repository.ReservaRepository;
