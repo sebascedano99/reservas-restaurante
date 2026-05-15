@@ -45,4 +45,35 @@ public class ReservaService {
         
         return reservaRepository.save(reserva);
     }
+
+    public Reserva obtenerReserva(Long id) {
+        return reservaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+    }
+
+    public List<Reserva> obtenerReservasPorCliente(Long clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+            
+        return reservaRepository.findByCliente(cliente);
+            
+
+    }
+
+    public Reserva actualizarReserva(Long id, Reserva reservaActualizada) {
+        Reserva reservaExistente = reservaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        reservaExistente.setFechaHora(reservaActualizada.getFechaHora());
+        reservaExistente.setNumeroPersonas(reservaActualizada.getNumeroPersonas());
+        reservaExistente.setEstado(reservaActualizada.getEstado());
+        return reservaRepository.save(reservaExistente);
+    }
+
+    public Reserva cancelarReserva(Long id) {
+        Reserva reservaExistente = reservaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        reservaExistente.setEstado(EstadoReserva.CANCELADA);
+        return reservaRepository.save(reservaExistente);
+        
+    }
 }

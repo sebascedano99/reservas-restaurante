@@ -26,12 +26,12 @@ public class Cliente {
     private Long id;
 
     @NotBlank
-    private String name;
+    private String nombre;
 
     @Email
     @Column(unique = true)
     private String email;
 
-    private String phone;
+    private String telefono;
 
 }
