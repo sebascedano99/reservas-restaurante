@@ -14,4 +14,5 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 
     List<Reserva> findByMesaAndFechaHora(Mesa mesa, LocalDateTime fechaHora);
     List<Reserva> findByCliente(Cliente cliente);
+    List<Reserva> findByFechaHora(LocalDateTime fechaHora);
 }
