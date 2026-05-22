@@ -375,17 +375,47 @@ CANCELADA
 
 ---
 
-# ⚠️ Manejo de errores
+## Manejo de errores
 
-La API devuelve respuestas HTTP siguiendo convenciones REST.
+La API devuelve respuestas de error con una estructura estándar en todos los endpoints:
 
-| Código | Descripción |
-|--------|-------------|
-| `400 Bad Request` | Datos inválidos |
-| `404 Not Found` | Recurso no encontrado |
-| `409 Conflict` | Conflicto de disponibilidad |
-| `500 Internal Server Error` | Error interno del servidor |
+```json
+{
+    "status": 404,
+    "mensaje": "Reserva no encontrada",
+    "timestamp": "2026-05-22T20:30:00"
+}
+```
 
+### Códigos de respuesta HTTP
+
+| Código | Tipo | Cuándo ocurre |
+|--------|------|---------------|
+| `200` | OK | Petición procesada correctamente |
+| `201` | Created | Recurso creado correctamente |
+| `400` | Bad Request | Mesa no disponible o número de personas excede la capacidad |
+| `404` | Not Found | Cliente, mesa o reserva no encontrada |
+| `500` | Internal Server Error | Error inesperado del servidor |
+
+### Ejemplos de error
+
+**Recurso no encontrado `404`:**
+```json
+{
+    "status": 404,
+    "mensaje": "Reserva no encontrada",
+    "timestamp": "2026-05-22T20:30:00"
+}
+```
+
+**Regla de negocio violada `400`:**
+```json
+{
+    "status": 400,
+    "mensaje": "Mesa no disponible",
+    "timestamp": "2026-05-22T20:30:00"
+}
+```
 ---
 
 # 🚧 Roadmap
