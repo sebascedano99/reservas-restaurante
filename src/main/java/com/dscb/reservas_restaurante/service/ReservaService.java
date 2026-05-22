@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.dscb.reservas_restaurante.exception.BusinessException;
+import com.dscb.reservas_restaurante.exception.ResourceNotFoundException;
 import com.dscb.reservas_restaurante.model.Cliente;
 import com.dscb.reservas_restaurante.model.EstadoReserva;
 import com.dscb.reservas_restaurante.model.Mesa;
@@ -27,18 +29,18 @@ public class ReservaService {
     public Reserva crearReserva(Reserva reserva){
 
         Cliente cliente = clienteRepository.findById(reserva.getCliente().getId())
-            .orElseThrow(() -> new RuntimeException ("Cliente no encontrado"));
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
         Mesa mesa = mesaRepository.findById(reserva.getMesa().getId())
-            .orElseThrow(() -> new RuntimeException ("Mesa no encontrada"));
+            .orElseThrow(() -> new ResourceNotFoundException ("Mesa no encontrada"));
 
         List <Reserva> reservasExistentes = reservaRepository.findByMesaAndFechaHora(mesa, reserva.getFechaHora());
         if (!reservasExistentes.isEmpty()) {
-            throw new RuntimeException("Mesa no disponible");
+            throw new BusinessException("Mesa no disponible");
         }
 
         int capacidad = mesa.getCapacidad();
         if (reserva.getNumeroPersonas()>capacidad) {
-            throw new RuntimeException("El número de personas no puede exceder la capacidad de la mesa");
+            throw new BusinessException("El número de personas no puede exceder la capacidad de la mesa");
         }
 
         reserva.setEstado(EstadoReserva.PENDIENTE);
@@ -48,12 +50,12 @@ public class ReservaService {
 
     public Reserva obtenerReserva(Long id) {
         return reservaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+            .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
     }
 
     public List<Reserva> obtenerReservasPorCliente(Long clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
-            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
             
         return reservaRepository.findByCliente(cliente);
             
@@ -62,7 +64,7 @@ public class ReservaService {
 
     public Reserva actualizarReserva(Long id, Reserva reservaActualizada) {
         Reserva reservaExistente = reservaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+            .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
         reservaExistente.setFechaHora(reservaActualizada.getFechaHora());
         reservaExistente.setNumeroPersonas(reservaActualizada.getNumeroPersonas());
         reservaExistente.setEstado(reservaActualizada.getEstado());
@@ -71,7 +73,7 @@ public class ReservaService {
 
     public Reserva cancelarReserva(Long id) {
         Reserva reservaExistente = reservaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+            .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
         reservaExistente.setEstado(EstadoReserva.CANCELADA);
         return reservaRepository.save(reservaExistente);
         
