@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.dscb.reservas_restaurante.dto.ActualizarReservaRequest;
 import com.dscb.reservas_restaurante.exception.BusinessException;
 import com.dscb.reservas_restaurante.exception.ResourceNotFoundException;
 import com.dscb.reservas_restaurante.model.Cliente;
@@ -62,12 +63,12 @@ public class ReservaService {
 
     }
 
-    public Reserva actualizarReserva(Long id, Reserva reservaActualizada) {
+    public Reserva actualizarReserva(Long id, ActualizarReservaRequest request) {
         Reserva reservaExistente = reservaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
-        reservaExistente.setFechaHora(reservaActualizada.getFechaHora());
-        reservaExistente.setNumeroPersonas(reservaActualizada.getNumeroPersonas());
-        reservaExistente.setEstado(reservaActualizada.getEstado());
+        reservaExistente.setFechaHora(request.getFechaHora());
+        reservaExistente.setNumeroPersonas(request.getNumeroPersonas());
+        reservaExistente.setEstado(request.getEstado());
         return reservaRepository.save(reservaExistente);
     }
 

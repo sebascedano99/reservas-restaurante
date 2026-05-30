@@ -25,6 +25,7 @@
 - [Ejemplos de uso](#-ejemplos-de-uso)
 - [Modelo de datos](#️-modelo-de-datos)
 - [Manejo de errores](#️-manejo-de-errores)
+- [Documentación interactiva](##-documentación-interactiva)
 - [Roadmap](#-roadmap)
 - [Autor](#-autor)
 - [Licencia](#-licencia)
@@ -416,6 +417,28 @@ La API devuelve respuestas de error con una estructura estándar en todos los en
     "timestamp": "2026-05-22T20:30:00"
 }
 ```
+---
+
+##  Documentación interactiva
+
+La API incluye documentación interactiva generada automáticamente con **Swagger UI / OpenAPI 3.1**.
+
+Una vez arrancada la aplicación, accede a:
+http://localhost:8080/swagger-ui/index.html
+
+Desde esta interfaz puedes:
+-  Ver todos los endpoints disponibles organizados por controller
+-  Probar cualquier endpoint directamente desde el navegador sin necesidad de Postman
+-  Ver la estructura exacta de los objetos JSON que acepta y devuelve cada endpoint
+-  Consultar el esquema OpenAPI en formato JSON en `http://localhost:8080/v3/api-docs`
+
+### Vista previa
+
+| Sección | Descripción |
+|---------|-------------|
+| `reserva-controller` | Endpoints de gestión de reservas |
+| `mesa-controller` | Endpoints de consulta de mesas |
+
 ---
 
 # 🚧 Roadmap
