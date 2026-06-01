@@ -4,6 +4,7 @@ package com.dscb.reservas_restaurante.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dscb.reservas_restaurante.dto.ActualizarReservaRequest;
 import com.dscb.reservas_restaurante.exception.BusinessException;
@@ -19,8 +20,8 @@ import com.dscb.reservas_restaurante.repository.ReservaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-
 public class ReservaService {
 
     private final ClienteRepository clienteRepository;
@@ -49,11 +50,13 @@ public class ReservaService {
         return reservaRepository.save(reserva);
     }
 
+    @Transactional(readOnly = true)
     public Reserva obtenerReserva(Long id) {
         return reservaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada"));
     }
 
+    @Transactional(readOnly = true)
     public List<Reserva> obtenerReservasPorCliente(Long clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
             .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));

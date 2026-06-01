@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dscb.reservas_restaurante.model.Mesa;
 import com.dscb.reservas_restaurante.model.Reserva;
@@ -14,8 +15,8 @@ import com.dscb.reservas_restaurante.repository.ReservaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-
 public class MesaService {
 
     private final MesaRepository mesaRepository;
